@@ -1,0 +1,52 @@
+@margin-left-primary: 20px;
+.calificacion(@fondo){
+   
+    background: @fondo;
+
+}
+
+& when (@media-common = true) {  
+
+    h2.title {
+        background-color: blue;
+            
+    }
+
+    li.impar{
+        margin-left: @margin-left-primary;
+    }
+    div.aprobado{
+        .calificacion(green)
+    }
+    div.suspenso{
+        .calificacion(red)
+    }
+    div.mejores{
+        font-size: 20px;
+        background-color: greenyellow;
+    }
+    
+ 
+ }
+
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {    
+    
+    h2.title {
+        background-color: red;
+    }
+    li.margen{
+        margin-left: @margin-left-primary;
+    }
+    div.aprobado{
+        .calificacion(green)
+    }
+    div.suspenso{
+        .calificacion(red)
+    }
+    div.mejores{
+        background-color: greenyellow;
+        font-size: 20px;
+    }
+
+}

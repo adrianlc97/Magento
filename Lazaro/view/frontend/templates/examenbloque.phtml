@@ -1,0 +1,66 @@
+<?php /** @var  \Hiberus\Lazaro\Block\BloqueExamen $block */ ?>
+
+
+<h2 class="title"><?=__('Listado de alumnos') ?></h2>
+
+<button class="inputbutton">Ocultar</button>
+<input type="button" class="buttonAlert" value="Nota mas Alta" />
+<?php $suma =0;?>
+<?$mejores=$block->get3notas();?>
+
+<ul class="listaAlumnos">
+    <?php foreach($block->getListExam() as $lista): ?>
+
+        <?php if($lista->getId()==1):?>
+            <?php $alumno=$lista;?>
+        <?php endif;?>
+
+        <?php if($lista->getMark()>$alumno->getMark()):?>
+            <?php $alumno = $lista;?>
+        <?php endif; ?>
+
+        <?php $value = ($lista->getId()%2==0) ? "par" : "impar";?>
+        <li class="<?= $value?>">
+
+        <?php $cal = ($lista->getMark()>5.00) ? "aprobado" : "suspenso";?>
+        <div class="<?= $cal?>">
+
+        <?php $mejor = (in_array($lista,$mejores)) ? "mejores" : "peores";?>
+        <div class="<?= $mejor?>">
+                
+                <?= $lista->getId().'->'.$escaper->escapeHtml($lista->getFirstName())?> <?= $escaper->escapeHtml($lista->getLastName()) ?>
+                <p class="notas">Nota: <?= $escaper->escapeHtml($lista->getMark()) ?><p>
+                <?php $nota = ($lista->getMark())?>
+                <?php $suma=$suma+$nota?>
+        </div>
+        </div>
+        </li>
+
+    <?php endforeach; ?>
+
+</ul>
+
+<p><?=__('La media es: %1',[$suma/count($block->getListExam())]) ?></p>
+<p><?=__('Total number of students customers: %1',[count($block->getListExam())]) ?></p>
+
+
+<script type="text/x-magento-init">
+
+{
+ ".inputbutton": {
+ "Hiberus_Lazaro/js/nota": { }
+ }
+}
+</script>
+
+<script type="text/x-magento-init">
+{
+     ".buttonAlert": {
+          "Hiberus_Lazaro/js/notaMasAlta": {
+            "nombre": "<?= $alumno->getFirstName() ?>",
+            "apellido": "<?= $alumno->getLastName() ?>",
+            "nota": "<?= $alumno->getMark() ?>"
+        }     
+     }
+}
+</script>
